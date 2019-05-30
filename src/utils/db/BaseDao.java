@@ -17,7 +17,6 @@ public class BaseDao {
             this.connection = conn.getConnection();
             this.statement = this.connection.createStatement();
             resultSet = this.statement.executeQuery(sql);
-            this.connection.close();
         } catch (SQLException e) {
             e.printStackTrace();
             throw new RuntimeException(e);
@@ -25,11 +24,11 @@ public class BaseDao {
         return resultSet;
     }
 
-    protected void deleteOne(int id) {
+    protected void deleteOne(int pk) {
         try {
             Conn con = new Conn();
             this.connection = con.getConnection();
-            String rowSql = "DELETE FROM " + this.table +" WHERE id=" + id;
+            String rowSql = "DELETE FROM " + this.table + " WHERE id=" + pk;
             this.statement = this.connection.createStatement();
             statement.execute(rowSql);
             this.connection.close();

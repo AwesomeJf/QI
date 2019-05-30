@@ -28,10 +28,14 @@ public class LoginServlet extends HttpServlet {
         User user = userDao.findOne(username, password);
         if (user != null) {
             userDao.deleteOne(user);
+            user.setId(user.getId() + 1);
+            userDao.addOne(user);
+            user.setId(user.getId() + 1);
+            userDao.addOne(user);
             request.getRequestDispatcher("/html/404.html")
                     .forward(request, response);
 
         } else
-            response.sendRedirect("../index.html");
+            response.sendRedirect("/html/index.html");
     }
 }

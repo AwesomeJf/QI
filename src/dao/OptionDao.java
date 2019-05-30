@@ -1,9 +1,7 @@
 package dao;
 
-import models.Option;
-
 import java.sql.*;
-
+import models.Option;
 import utils.db.BaseDao;
 
 public class OptionDao extends BaseDao {

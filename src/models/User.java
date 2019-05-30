@@ -1,8 +1,6 @@
 package models;
 
-import dao.UserDao;
-
-import java.sql.Time;
+import java.sql.Timestamp;
 
 public class User {
 
@@ -10,8 +8,8 @@ public class User {
     private String username;
     private String password;
     private Boolean isAdmin;
-    private Time createTime;
-    private Time lastLoginTime;
+    private Timestamp createTime;
+    private Timestamp lastLoginTime;
 
     public int getId() {
         return id;
@@ -45,19 +43,19 @@ public class User {
         isAdmin = admin;
     }
 
-    public Time getCreateTime() {
+    public Timestamp getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(Time createTime) {
+    public void setCreateTime(Timestamp createTime) {
         this.createTime = createTime;
     }
 
-    public Time getLastLoginTime() {
+    public Timestamp getLastLoginTime() {
         return lastLoginTime;
     }
 
-    public void setLastLoginTime(Time lastLoginTime) {
+    public void setLastLoginTime(Timestamp lastLoginTime) {
         this.lastLoginTime = lastLoginTime;
     }
 }

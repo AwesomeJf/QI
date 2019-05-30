@@ -1,12 +1,12 @@
 package models;
 
-import java.util.Date;
+import java.sql.Timestamp;
 
 public class Paper {
     private int id;
     private String title;
-    private Date publishTime;
-    private Date endTime;
+    private Timestamp publishTime;
+    private Timestamp endTime;
     private int userId;
 
     public int getId() {
@@ -25,19 +25,19 @@ public class Paper {
         this.title = title;
     }
 
-    public Date getPublishTime() {
+    public Timestamp getPublishTime() {
         return publishTime;
     }
 
-    public void setPublishTime(Date publishTime) {
+    public void setPublishTime(Timestamp publishTime) {
         this.publishTime = publishTime;
     }
 
-    public Date getEndTime() {
+    public Timestamp getEndTime() {
         return endTime;
     }
 
-    public void setEndTime(Date endTime) {
+    public void setEndTime(Timestamp endTime) {
         this.endTime = endTime;
     }
 

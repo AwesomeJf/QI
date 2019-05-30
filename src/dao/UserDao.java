@@ -7,7 +7,6 @@ import utils.db.BaseDao;
 import java.sql.*;
 
 public class UserDao extends BaseDao {
-    private String table;
 
     public UserDao() {
         table = "user";
@@ -20,8 +19,8 @@ public class UserDao extends BaseDao {
             user.setUsername(resultSet.getString("username"));
             user.setPassword(resultSet.getString("password"));
             user.setAdmin(resultSet.getBoolean("isAdmin"));
-            user.setCreateTime(resultSet.getTime("createTime"));
-            user.setLastLoginTime(resultSet.getTime("lastLoginTime"));
+            user.setCreateTime(Timestamp.valueOf(resultSet.getString("createTime")));
+            user.setLastLoginTime(Timestamp.valueOf(resultSet.getString("lastLoginTime")));
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -30,47 +29,47 @@ public class UserDao extends BaseDao {
 
     public User findOne(int id) {
         User user = null;
-        Conn conn = new Conn();
         try {
-            this.connection = conn.getConnection();
-            this.statement = this.connection.createStatement();
             String rowSql = "SELECT * FROM " + this.table + " WHERE id=" + id;
-            ResultSet resultSet = this.statement.executeQuery(rowSql);
+            ResultSet resultSet = this.executeQuery(rowSql);
             if (resultSet.next()) {
                 user = makeUser(resultSet);
             }
+            this.connection.close();
+            return user;
         } catch (SQLException e) {
             e.printStackTrace();
             throw new RuntimeException(e);
         }
-        return user;
     }
 
     public User findOne(String username, String password) {
         User user = null;
         try {
-            String rowSql = "SELECT * FROM " + this.table + "WHERE username=" + "'" + username + "'" + " and password='" + password + "'";
+            String rowSql = "SELECT * FROM " + this.table + " WHERE username=" + "'" + username + "'" + " and password='" + password + "'";
             ResultSet resultSet = this.executeQuery(rowSql);
             if (resultSet.next()) {
                 user = makeUser(resultSet);
             }
+            this.connection.close();
+            return user;
         } catch (SQLException e) {
             e.printStackTrace();
             throw new RuntimeException(e);
         }
-        return user;
     }
 
     public User addOne(User user) {
         try {
             Conn con = new Conn();
             this.connection = con.getConnection();
-            String rowSql = "INSERT INTO " + this.table + "VALUES ("
-                    + user.getUsername() + ","
+            String rowSql = "INSERT INTO " + this.table + " VALUES ("
+                    + user.getId() + ","
+                    + "'" + user.getUsername() + "'" + ","
                     + "'" + user.getPassword() + "',"
-                    + "'" + user.getAdmin() + "',"
+                    + (user.getAdmin() ? 1 : 0) + ","
                     + "'" + user.getCreateTime() + "',"
-                    + user.getLastLoginTime() + ")";
+                    + "'" + user.getLastLoginTime() + "'" + ")";
             this.statement = this.connection.createStatement();
             statement.execute(rowSql);
             this.connection.close();
@@ -82,16 +81,6 @@ public class UserDao extends BaseDao {
     }
 
     public void deleteOne(User user) {
-        try {
-            Conn con = new Conn();
-            this.connection = con.getConnection();
-            String rowSql = "DELETE FROM " + this.table +" WHERE id=" + user.getId();
-            this.statement = this.connection.createStatement();
-            statement.execute(rowSql);
-            this.connection.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-            throw new RuntimeException(e);
-        }
+        super.deleteOne(user.getId());
     }
 }

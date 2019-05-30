@@ -8,7 +8,7 @@ public class Conn {
     private String dbUrl;
 
     public Conn() {
-        this.driverClass = "com.mysql.cj.Driver";
+        this.driverClass = "com.mysql.cj.jdbc.Driver";
         this.dbUrl = "jdbc:mysql://t.finlu.com.cn:3306/QI?user=admin&password=mysqlvip";
         loadDriver();
     }
@@ -21,7 +21,7 @@ public class Conn {
 
     private void loadDriver() {
         try {
-            Class.forName("com.mysql.cj.Driver");
+            Class.forName(this.driverClass);
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
