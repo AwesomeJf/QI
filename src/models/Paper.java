@@ -5,6 +5,7 @@ import java.sql.Timestamp;
 public class Paper {
     private int id;
     private String title;
+    private Boolean isPublish;
     private Timestamp publishTime;
     private Timestamp endTime;
     private int userId;
@@ -23,6 +24,14 @@ public class Paper {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public Boolean getIsPublish() {
+        return isPublish;
+    }
+
+    public void setIsPublish(Boolean isPublish) {
+        this.isPublish = isPublish;
     }
 
     public Timestamp getPublishTime() {

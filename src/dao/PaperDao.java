@@ -1,9 +1,13 @@
 package dao;
 
-import utils.db.BaseDao;
+import models.Paper;
 
-public class PaperDao extends BaseDao {
-    public PaperDao () {
-        table = "paper";
-    }
+public interface PaperDao {
+    public Paper find(int pk);
+
+    public boolean add(Paper paper);
+
+    public boolean update(Paper paper);
+
+    public boolean delete(int pk);
 }

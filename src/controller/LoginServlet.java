@@ -1,6 +1,7 @@
 package controller;
 
 import dao.UserDao;
+import dao.impl.UserDaoImpl;
 import models.User;
 
 import java.io.IOException;
@@ -24,14 +25,14 @@ public class LoginServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
-        UserDao userDao = new UserDao();
-        User user = userDao.findOne(username, password);
+        UserDao userDao = new UserDaoImpl();
+        User user = userDao.find(username, password);
         if (user != null) {
-            userDao.deleteOne(user);
+            userDao.delete(user.getId());
             user.setId(user.getId() + 1);
-            userDao.addOne(user);
+            userDao.add(user);
             user.setId(user.getId() + 1);
-            userDao.addOne(user);
+            userDao.add(user);
             request.getRequestDispatcher("/html/404.html")
                     .forward(request, response);
 

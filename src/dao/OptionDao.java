@@ -1,43 +1,12 @@
 package dao;
-
-import java.sql.*;
 import models.Option;
-import utils.db.BaseDao;
 
-public class OptionDao extends BaseDao {
+public interface OptionDao {
+    public Option find(int pk);
 
-    public OptionDao() {
-        table = "option";
-    }
+    public boolean add(Option option);
 
-    private Option makeOption(ResultSet resultSet) {
-        Option option = new Option();
-        try {
-            option.setId(resultSet.getInt("id"));
-            option.setContent(resultSet.getString("content"));
-            option.setSubjectId(resultSet.getInt("subjectId"));
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return option;
-    }
+    public boolean update(Option option);
 
-    public Option findOne(int id) {
-        Option option = null;
-        try {
-            String rowSql = "SELECT * FROM " + this.table + "WHERE id=" + id;
-            ResultSet resultSet = this.executeQuery(rowSql);
-            if (resultSet.next()) {
-                option = makeOption(resultSet);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            throw new RuntimeException(e);
-        }
-        return option;
-    }
-
-    public void deleteOne(int id) {
-        super.deleteOne(id);
-    }
+    public boolean delete(int pk);
 }

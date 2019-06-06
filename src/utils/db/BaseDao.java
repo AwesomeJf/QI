@@ -1,37 +1,23 @@
 package utils.db;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 
 public class BaseDao {
     protected Connection connection;
-    protected Statement statement;
+    protected PreparedStatement statement;
     protected String table;
 
-    protected ResultSet executeQuery(String sql) {
-        Conn conn = new Conn();
-        ResultSet resultSet = null;
-        try {
-            this.connection = conn.getConnection();
-            this.statement = this.connection.createStatement();
-            resultSet = this.statement.executeQuery(sql);
-        } catch (SQLException e) {
-            e.printStackTrace();
-            throw new RuntimeException(e);
-        }
-        return resultSet;
-    }
-
-    protected void deleteOne(int pk) {
+    protected boolean delete(int pk) {
         try {
             Conn con = new Conn();
             this.connection = con.getConnection();
-            String rowSql = "DELETE FROM " + this.table + " WHERE id=" + pk;
-            this.statement = this.connection.createStatement();
+            String rowSql = "DELETE FROM ? WHERE id=?";
+            this.statement = this.connection.prepareStatement(rowSql);
+            this.statement.setString(0, this.table);
+            this.statement.setInt(1, pk);
             statement.execute(rowSql);
             this.connection.close();
+            return true;
         } catch (SQLException e) {
             e.printStackTrace();
             throw new RuntimeException(e);
@@ -46,11 +32,11 @@ public class BaseDao {
         this.connection = connection;
     }
 
-    public Statement getStatement() {
+    public PreparedStatement getStatement() {
         return statement;
     }
 
-    public void setStatement(Statement statement) {
+    public void setStatement(PreparedStatement statement) {
         this.statement = statement;
     }
 

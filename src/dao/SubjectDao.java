@@ -1,12 +1,13 @@
 package dao;
 
-import utils.db.BaseDao;
+import models.Subject;
 
-public class SubjectDao extends BaseDao {
+public interface SubjectDao {
+    public Subject find(int pk);
 
-    public SubjectDao() {
-        table = "subject";
-    }
+    public boolean add(Subject subject);
 
+    public boolean update(Subject subject);
 
+    public boolean delete(int pk);
 }
