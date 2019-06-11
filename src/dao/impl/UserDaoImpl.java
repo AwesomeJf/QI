@@ -9,10 +9,6 @@ import java.sql.*;
 
 public class UserDaoImpl extends BaseDao implements UserDao {
 
-    public UserDaoImpl() {
-        table = "user";
-    }
-
     private User makeUser(ResultSet resultSet) {
         User user = new User();
         try {
@@ -21,7 +17,6 @@ public class UserDaoImpl extends BaseDao implements UserDao {
             user.setPassword(resultSet.getString("password"));
             user.setAdmin(resultSet.getBoolean("isAdmin"));
             user.setCreateTime(resultSet.getTimestamp("createTime"));
-            user.setLastLoginTime(resultSet.getTimestamp("lastLoginTime"));
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -34,20 +29,18 @@ public class UserDaoImpl extends BaseDao implements UserDao {
         ResultSet resultSet;
         try {
             this.connection = conn.getConnection();
-            String rowSql = "SELECT * FROM '?' WHERE id=?";
+            String rowSql = "SELECT * FROM user WHERE id=?";
             this.statement = this.connection.prepareStatement(rowSql);
-            this.statement.setString(0, this.table);
             this.statement.setInt(1, id);
-            resultSet = this.statement.executeQuery(rowSql);
+            resultSet = this.statement.executeQuery();
             if (resultSet.next()) {
                 user = makeUser(resultSet);
             }
             this.connection.close();
-            return user;
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new RuntimeException(e);
         }
+        return user;
     }
 
     public User find(String username, String password) {
@@ -56,12 +49,31 @@ public class UserDaoImpl extends BaseDao implements UserDao {
         ResultSet resultSet;
         try {
             this.connection = conn.getConnection();
-            String rowSql = "SELECT * FROM ? WHERE username='?' and password='?'";
+            String rowSql = "SELECT * FROM user WHERE username=? and password=?";
             this.statement = this.connection.prepareStatement(rowSql);
-            this.statement.setString(0, this.table);
             this.statement.setString(1, username);
             this.statement.setString(2, password);
-            resultSet = this.statement.executeQuery(rowSql);
+            resultSet = this.statement.executeQuery();
+            if (resultSet.next()) {
+                user = makeUser(resultSet);
+            }
+            this.connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return user;
+    }
+
+    public User find(String username) {
+        User user = null;
+        Conn conn = new Conn();
+        ResultSet resultSet;
+        try {
+            this.connection = conn.getConnection();
+            String rowSql = "SELECT * FROM user WHERE username=?";
+            this.statement = this.connection.prepareStatement(rowSql);
+            this.statement.setString(1, username);
+            resultSet = this.statement.executeQuery();
             if (resultSet.next()) {
                 user = makeUser(resultSet);
             }
@@ -75,17 +87,24 @@ public class UserDaoImpl extends BaseDao implements UserDao {
     public boolean add(User user) {
         try {
             Conn con = new Conn();
+            int index;
             this.connection = con.getConnection();
-            String rowSql = "INSERT INTO ? VALUES (?, '?', '?', ?, '?', '?')";
+            String maxIDSql = "SELECT MAX(id) as id from user";
+            this.statement = this.connection.prepareStatement(maxIDSql);
+            ResultSet sqlRst = this.statement.executeQuery();
+            if (sqlRst.next()) {
+                index = sqlRst.getInt("id") + 1;
+            } else {
+                index = 1;
+            }
+            String rowSql = "INSERT INTO user VALUES (?, ?, ?, ?, ?)";
             this.statement = this.connection.prepareStatement(rowSql);
-            this.statement.setString(0, this.table);
-            this.statement.setInt(1, user.getId());
+            this.statement.setInt(1, index);
             this.statement.setString(2, user.getUsername());
             this.statement.setString(3, user.getPassword());
-            this.statement.setInt(4, (user.getAdmin() ? 1 : 0));
-            this.statement.setString(5, user.getCreateTime().toString());
-            this.statement.setString(6, user.getLastLoginTime().toString());
-            this.statement.execute(rowSql);
+            this.statement.setBoolean(4, user.getAdmin());
+            this.statement.setTimestamp(5, user.getCreateTime());
+            this.statement.execute();
             this.connection.close();
             return true;
         } catch (SQLException e) {
@@ -98,14 +117,13 @@ public class UserDaoImpl extends BaseDao implements UserDao {
         Conn conn = new Conn();
         try {
             this.connection = conn.getConnection();
-            String rowSql = "UPDATE ? SET username='?', password='?', isAdmin=?, createTime='?', lastLoginTime='?' WHERE id=?";
+            String rowSql = "UPDATE user SET username=?, password=?, isAdmin=?, createTime=? WHERE id=?";
             this.statement = this.connection.prepareStatement(rowSql);
-            this.statement.setString(0, this.table);
             this.statement.setString(1, user.getUsername());
             this.statement.setString(2, user.getPassword());
             this.statement.setBoolean(3, user.getAdmin());
             this.statement.setTimestamp(4, user.getCreateTime());
-            this.statement.setTimestamp(5, user.getLastLoginTime());
+            this.statement.setInt(5, user.getId());
             return true;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -114,6 +132,28 @@ public class UserDaoImpl extends BaseDao implements UserDao {
     }
 
     public boolean delete(int pk) {
-        return super.delete(pk);
+        Conn con = new Conn();
+        try {
+            this.connection = con.getConnection();
+            // 判断该条记录是否存在
+            String findSql = "SELECT * from user WHERE id=?";
+            this.statement = this.connection.prepareStatement(findSql);
+            this.statement.setInt(1, pk);
+            ResultSet resultSet = this.statement.executeQuery();
+            if (resultSet.next()) {
+                String deleteSql = "DELETE FROM user WHERE id=?";
+                this.statement = this.connection.prepareStatement(deleteSql);
+                this.statement.setInt(1, pk);
+                statement.execute();
+                this.connection.close();
+                return true;
+            } else {
+                // 记录不存在
+                return false;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 }

@@ -5,11 +5,13 @@ import dao.impl.UserDaoImpl;
 import models.User;
 
 import java.io.IOException;
+import net.sf.json.*;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.ServletException;
+import java.io.PrintWriter;
 
 public class LoginServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
@@ -27,16 +29,15 @@ public class LoginServlet extends HttpServlet {
         String password = request.getParameter("password");
         UserDao userDao = new UserDaoImpl();
         User user = userDao.find(username, password);
+        PrintWriter out = response.getWriter();
+        response.setContentType("application/json; charset=utf-8");
         if (user != null) {
-            userDao.delete(user.getId());
-            user.setId(user.getId() + 1);
-            userDao.add(user);
-            user.setId(user.getId() + 1);
-            userDao.add(user);
-            request.getRequestDispatcher("/html/404.html")
-                    .forward(request, response);
-
-        } else
-            response.sendRedirect("/html/index.html");
+            JSONObject userInfo = JSONObject.fromObject(user);
+            out.print(userInfo.toString());
+        } else{
+            String err = "{\"errCode\": \"611\"}";
+            JSONObject err_response = JSONObject.fromObject(err);
+            out.print(err_response.toString());
+        }
     }
 }

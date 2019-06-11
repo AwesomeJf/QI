@@ -1143,11 +1143,11 @@
       <Charset>utf8mb4</Charset>
       <DefaultForCharset>0</DefaultForCharset>
     </collation>
-    <table id="290" parent="3" name="answer"/>
-    <table id="291" parent="3" name="option"/>
-    <table id="292" parent="3" name="paper"/>
-    <table id="293" parent="3" name="subject"/>
-    <table id="294" parent="3" name="user"/>
+    <table id="290" parent="3" name="option"/>
+    <table id="291" parent="3" name="paper"/>
+    <table id="292" parent="3" name="subject"/>
+    <table id="293" parent="3" name="user"/>
+    <table id="294" parent="3" name="user_option"/>
     <column id="295" parent="290" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
@@ -1155,24 +1155,26 @@
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="296" parent="290" name="userId">
+    <column id="296" parent="290" name="index">
       <Position>2</Position>
       <DataType>int(11)|0s</DataType>
+      <DefaultExpression>0</DefaultExpression>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="297" parent="290" name="content">
+      <Position>3</Position>
+      <DataType>text|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="297" parent="290" name="optionId">
-      <Position>3</Position>
+    <column id="298" parent="290" name="subjectId">
+      <Position>4</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="298" parent="290" name="userId">
-      <ColNames>userId</ColNames>
-      <Type>btree</Type>
-    </index>
-    <index id="299" parent="290" name="optionId">
-      <ColNames>optionId</ColNames>
+    <index id="299" parent="290" name="subjectId">
+      <ColNames>subjectId</ColNames>
       <Type>btree</Type>
     </index>
     <key id="300" parent="290" name="PRIMARY">
@@ -1180,95 +1182,95 @@
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="301" parent="290" name="answer_ibfk_1">
-      <ColNames>userId</ColNames>
-      <RefSchemaName>QI</RefSchemaName>
-      <RefTableName>user</RefTableName>
-      <RefColNames>id</RefColNames>
-    </foreign-key>
-    <foreign-key id="302" parent="290" name="answer_ibfk_2">
-      <ColNames>optionId</ColNames>
-      <RefSchemaName>QI</RefSchemaName>
-      <RefTableName>option</RefTableName>
-      <RefColNames>id</RefColNames>
-    </foreign-key>
-    <column id="303" parent="291" name="id">
-      <Position>1</Position>
-      <DataType>int(11)|0s</DataType>
-      <NotNull>1</NotNull>
-      <SequenceIdentity>1</SequenceIdentity>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <column id="304" parent="291" name="index">
-      <Position>2</Position>
-      <DataType>int(11)|0s</DataType>
-      <DefaultExpression>0</DefaultExpression>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <column id="305" parent="291" name="content">
-      <Position>3</Position>
-      <DataType>text|0s</DataType>
-      <NotNull>1</NotNull>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <column id="306" parent="291" name="subjectId">
-      <Position>4</Position>
-      <DataType>int(11)|0s</DataType>
-      <NotNull>1</NotNull>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <index id="307" parent="291" name="subjectId">
-      <ColNames>subjectId</ColNames>
-      <Type>btree</Type>
-    </index>
-    <key id="308" parent="291" name="PRIMARY">
-      <NameSurrogate>1</NameSurrogate>
-      <ColNames>id</ColNames>
-      <Primary>1</Primary>
-    </key>
-    <foreign-key id="309" parent="291" name="option_ibfk_1">
+    <foreign-key id="301" parent="290" name="option_ibfk_1">
       <ColNames>subjectId</ColNames>
       <RefSchemaName>QI</RefSchemaName>
       <RefTableName>subject</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <column id="310" parent="292" name="id">
+    <column id="302" parent="291" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="311" parent="292" name="title">
+    <column id="303" parent="291" name="title">
       <Position>2</Position>
       <DataType>char(50)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="312" parent="292" name="isPublish">
+    <column id="304" parent="291" name="isPublish">
       <Position>3</Position>
       <DataType>tinyint(1)|0s</DataType>
       <DefaultExpression>1</DefaultExpression>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="313" parent="292" name="publishTime">
+    <column id="305" parent="291" name="publishTime">
       <Position>4</Position>
       <DataType>datetime|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="314" parent="292" name="endTime">
+    <column id="306" parent="291" name="endTime">
       <Position>5</Position>
       <DataType>datetime|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="315" parent="292" name="userId">
+    <column id="307" parent="291" name="userId">
       <Position>6</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="316" parent="292" name="userId">
+    <index id="308" parent="291" name="userId">
       <ColNames>userId</ColNames>
+      <Type>btree</Type>
+    </index>
+    <key id="309" parent="291" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <foreign-key id="310" parent="291" name="paper_ibfk_1">
+      <ColNames>userId</ColNames>
+      <RefSchemaName>QI</RefSchemaName>
+      <RefTableName>user</RefTableName>
+      <RefColNames>id</RefColNames>
+    </foreign-key>
+    <column id="311" parent="292" name="id">
+      <Position>1</Position>
+      <DataType>int(11)|0s</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="312" parent="292" name="index">
+      <Position>2</Position>
+      <DataType>int(11)|0s</DataType>
+      <DefaultExpression>0</DefaultExpression>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="313" parent="292" name="title">
+      <Position>3</Position>
+      <DataType>char(50)|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="314" parent="292" name="type">
+      <Position>4</Position>
+      <DataType>char(30)|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="315" parent="292" name="paperId">
+      <Position>5</Position>
+      <DataType>int(11)|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <index id="316" parent="292" name="paperId">
+      <ColNames>paperId</ColNames>
       <Type>btree</Type>
     </index>
     <key id="317" parent="292" name="PRIMARY">
@@ -1276,10 +1278,10 @@
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="318" parent="292" name="paper_ibfk_1">
-      <ColNames>userId</ColNames>
+    <foreign-key id="318" parent="292" name="subject_ibfk_1">
+      <ColNames>paperId</ColNames>
       <RefSchemaName>QI</RefSchemaName>
-      <RefTableName>user</RefTableName>
+      <RefTableName>paper</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
     <column id="319" parent="293" name="id">
@@ -1289,85 +1291,78 @@
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="320" parent="293" name="index">
+    <column id="320" parent="293" name="username">
       <Position>2</Position>
-      <DataType>int(11)|0s</DataType>
-      <DefaultExpression>0</DefaultExpression>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <column id="321" parent="293" name="title">
-      <Position>3</Position>
-      <DataType>char(50)|0s</DataType>
-      <NotNull>1</NotNull>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <column id="322" parent="293" name="type">
-      <Position>4</Position>
       <DataType>char(30)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="323" parent="293" name="paperId">
-      <Position>5</Position>
-      <DataType>int(11)|0s</DataType>
+    <column id="321" parent="293" name="password">
+      <Position>3</Position>
+      <DataType>char(30)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="324" parent="293" name="paperId">
-      <ColNames>paperId</ColNames>
-      <Type>btree</Type>
-    </index>
-    <key id="325" parent="293" name="PRIMARY">
+    <column id="322" parent="293" name="isAdmin">
+      <Position>4</Position>
+      <DataType>tinyint(1)|0s</DataType>
+      <DefaultExpression>0</DefaultExpression>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="323" parent="293" name="createTime">
+      <Position>5</Position>
+      <DataType>datetime|0s</DataType>
+      <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <key id="324" parent="293" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="326" parent="293" name="subject_ibfk_1">
-      <ColNames>paperId</ColNames>
-      <RefSchemaName>QI</RefSchemaName>
-      <RefTableName>paper</RefTableName>
-      <RefColNames>id</RefColNames>
-    </foreign-key>
-    <column id="327" parent="294" name="id">
+    <column id="325" parent="294" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="328" parent="294" name="username">
+    <column id="326" parent="294" name="userId">
       <Position>2</Position>
-      <DataType>char(30)|0s</DataType>
+      <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="329" parent="294" name="password">
+    <column id="327" parent="294" name="optionId">
       <Position>3</Position>
-      <DataType>char(30)|0s</DataType>
+      <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="330" parent="294" name="isAdmin">
-      <Position>4</Position>
-      <DataType>tinyint(1)|0s</DataType>
-      <DefaultExpression>0</DefaultExpression>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <column id="331" parent="294" name="createTime">
-      <Position>5</Position>
-      <DataType>datetime|0s</DataType>
-      <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <column id="332" parent="294" name="lastLoginTime">
-      <Position>6</Position>
-      <DataType>datetime|0s</DataType>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <key id="333" parent="294" name="PRIMARY">
+    <index id="328" parent="294" name="userId">
+      <ColNames>userId</ColNames>
+      <Type>btree</Type>
+    </index>
+    <index id="329" parent="294" name="optionId">
+      <ColNames>optionId</ColNames>
+      <Type>btree</Type>
+    </index>
+    <key id="330" parent="294" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
+    <foreign-key id="331" parent="294" name="user_option_ibfk_1">
+      <ColNames>userId</ColNames>
+      <RefSchemaName>QI</RefSchemaName>
+      <RefTableName>user</RefTableName>
+      <RefColNames>id</RefColNames>
+    </foreign-key>
+    <foreign-key id="332" parent="294" name="user_option_ibfk_2">
+      <ColNames>optionId</ColNames>
+      <RefSchemaName>QI</RefSchemaName>
+      <RefTableName>option</RefTableName>
+      <RefColNames>id</RefColNames>
+    </foreign-key>
   </database-model>
 </dataSource>

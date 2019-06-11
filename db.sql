@@ -6,8 +6,7 @@ CREATE TABLE IF NOT EXISTS `user`
     username      CHAR(30) NOT NULL,
     password      CHAR(30) NOT NULL,
     isAdmin       BOOLEAN  DEFAULT FALSE,
-    createTime    DATETIME DEFAULT CURRENT_TIMESTAMP,
-    lastLoginTime DATETIME
+    createTime    DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE IF NOT EXISTS `paper`

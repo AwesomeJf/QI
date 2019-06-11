@@ -30,9 +30,8 @@ public class OptionDaoImpl extends BaseDao implements OptionDao {
         ResultSet resultSet;
         try {
             this.connection = conn.getConnection();
-            String rowSql = "SELECT * FROM ? WHERE id=?";
+            String rowSql = "SELECT * FROM option WHERE id=?";
             this.statement = this.connection.prepareStatement(rowSql);
-            this.statement.setString(0, this.table);
             this.statement.setInt(1, pk);
             resultSet = this.statement.executeQuery();
             if (resultSet.next()) {

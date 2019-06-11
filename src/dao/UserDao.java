@@ -7,6 +7,8 @@ public interface UserDao {
 
     public User find(String username, String password);
 
+    public User find(String username);
+
     public boolean add(User user);
 
     public boolean update(User user);

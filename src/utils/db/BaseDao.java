@@ -11,9 +11,8 @@ public class BaseDao {
         try {
             Conn con = new Conn();
             this.connection = con.getConnection();
-            String rowSql = "DELETE FROM ? WHERE id=?";
+            String rowSql = "DELETE FROM  WHERE id=?";
             this.statement = this.connection.prepareStatement(rowSql);
-            this.statement.setString(0, this.table);
             this.statement.setInt(1, pk);
             statement.execute(rowSql);
             this.connection.close();

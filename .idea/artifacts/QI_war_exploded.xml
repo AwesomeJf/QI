@@ -8,6 +8,7 @@
         </element>
         <element id="directory" name="lib">
           <element id="library" level="project" name="tomcat8" />
+          <element id="library" level="project" name="json" />
         </element>
       </element>
       <element id="javaee-facet-resources" facet="QI/web/Web" />

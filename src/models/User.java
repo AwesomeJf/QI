@@ -9,7 +9,6 @@ public class User {
     private String password;
     private Boolean isAdmin;
     private Timestamp createTime;
-    private Timestamp lastLoginTime;
 
     public int getId() {
         return id;
@@ -51,11 +50,4 @@ public class User {
         this.createTime = createTime;
     }
 
-    public Timestamp getLastLoginTime() {
-        return lastLoginTime;
-    }
-
-    public void setLastLoginTime(Timestamp lastLoginTime) {
-        this.lastLoginTime = lastLoginTime;
-    }
 }
